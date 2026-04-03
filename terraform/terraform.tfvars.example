@@ -1,0 +1,10 @@
+# Example values — copy to ~/workspace/tfvars/arc-connectivity.tfvars and fill in
+subscription_id = "YOUR_SUBSCRIPTION_ID"
+location        = "australiaeast"
+prefix          = "arclab"
+admin_username  = "arcadmin"
+admin_password  = "CHANGE_ME_Str0ng!Pass"
+home_ip         = "YOUR_IP/32"
+host_vm_size    = "Standard_D16s_v5"
+deploy_bastion  = true
+auto_shutdown_time = "1000"  # 6pm AWST = 1000 UTC
