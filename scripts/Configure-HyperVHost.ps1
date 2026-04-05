@@ -52,14 +52,22 @@ New-Item -ItemType Directory -Path $VMDir -Force | Out-Null
 # ── 2. Install required roles ───────────────────────────────────────
 Write-Host "[2/7] Installing Hyper-V + DHCP roles..."
 $features = @('Hyper-V', 'DHCP', 'RSAT-Hyper-V-Tools', 'RSAT-DHCP')
+$rebootNeeded = $false
 foreach ($f in $features) {
     $feat = Get-WindowsFeature -Name $f
     if (-not $feat.Installed) {
-        Install-WindowsFeature -Name $f -IncludeManagementTools
+        $result = Install-WindowsFeature -Name $f -IncludeManagementTools
         Write-Host "  Installed: $f"
+        if ($result.RestartNeeded -eq 'Yes') {
+            $rebootNeeded = $true
+        }
     } else {
         Write-Host "  Already installed: $f"
     }
+}
+
+if ($rebootNeeded) {
+    Write-Host "  Windows reports reboot required for role installation"
 }
 
 # ── 3. Install Azure CLI + azcopy ───────────────────────────────────
@@ -163,3 +171,4 @@ Write-Host ""
 Write-Host "Bootstrap complete. Rebooting to finish Hyper-V installation..." -ForegroundColor Green
 Stop-Transcript
 Restart-Computer -Force
+exit 0
