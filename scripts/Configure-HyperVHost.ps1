@@ -38,14 +38,18 @@ Write-Host "Timestamp: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss UTC')"
 # ── 1. Format data disk ─────────────────────────────────────────────
 # Pattern from ArcBox Bootstrap.ps1 — raw disk → drive F:
 Write-Host "[1/7] Initializing data disk..."
-$disk = (Get-Disk | Where-Object PartitionStyle -eq 'raw')[0]
-if ($disk) {
-    $disk | Initialize-Disk -PartitionStyle MBR -PassThru |
+$rawDisk = Get-Disk | Where-Object PartitionStyle -eq 'raw' | Select-Object -First 1
+$existingF = Get-Volume -DriveLetter F -ErrorAction SilentlyContinue
+
+if ($rawDisk) {
+    $rawDisk | Initialize-Disk -PartitionStyle MBR -PassThru |
         New-Partition -UseMaximumSize -DriveLetter F |
         Format-Volume -FileSystem NTFS -NewFileSystemLabel "VMsDisk" -Confirm:$false -Force
     Write-Host "  Data disk formatted as F:\"
+} elseif ($existingF) {
+    Write-Host "  Data disk already available as F:\"
 } else {
-    Write-Host "  Data disk already formatted or not found"
+    Write-Host "  WARNING: No RAW data disk found and F: not present"
 }
 New-Item -ItemType Directory -Path $VMDir -Force | Out-Null
 
