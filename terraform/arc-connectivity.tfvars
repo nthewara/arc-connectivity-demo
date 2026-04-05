@@ -1,9 +1,0 @@
-subscription_id    = "b9d87a00-a4d8-47d9-84a2-cfd7a9d745d2"
-location           = "australiaeast"
-prefix             = "arclab"
-admin_username     = "arcadmin"
-admin_password     = "ArcLab2026!uLV15a"
-home_ip            = "115.70.58.97/32"
-host_vm_size       = "Standard_D16s_v5"
-deploy_bastion     = true
-auto_shutdown_time = "1000"
