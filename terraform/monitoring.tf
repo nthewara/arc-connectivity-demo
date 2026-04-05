@@ -4,7 +4,7 @@
 resource "azurerm_resource_group_policy_assignment" "monitor_windows" {
   name                 = "deploy-ama-windows-arc"
   resource_group_id    = azurerm_resource_group.main.id
-  policy_definition_id = "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de9f6435eec0"
+  policy_definition_id = "/providers/Microsoft.Authorization/policyDefinitions/94f686d6-9a24-4e19-91f1-de937dc171a4"
   display_name         = "Configure Windows Arc machines with Azure Monitor Agent"
   location             = azurerm_resource_group.main.location
 

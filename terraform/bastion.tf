@@ -10,4 +10,9 @@ resource "azurerm_bastion_host" "main" {
   sku                 = "Developer"
   virtual_network_id  = azurerm_virtual_network.main.id
   tags                = var.tags
+
+  depends_on = [
+    azurerm_subnet.bastion,
+    azurerm_subnet.host
+  ]
 }

@@ -25,6 +25,7 @@ resource "azurerm_network_interface" "host" {
 
 resource "azurerm_windows_virtual_machine" "host" {
   name                  = "${var.prefix}-host-${local.name_suffix}"
+  computer_name         = "arclab-${local.name_suffix}"
   location              = azurerm_resource_group.main.location
   resource_group_name   = azurerm_resource_group.main.name
   size                  = var.host_vm_size
@@ -97,7 +98,7 @@ resource "azurerm_virtual_machine_extension" "bootstrap" {
   type_handler_version = "1.10"
 
   settings = jsonencode({
-    commandToExecute = "powershell -ExecutionPolicy Bypass -File C:\\ArcLab\\Configure-HyperVHost.ps1"
+    commandToExecute = "powershell -ExecutionPolicy Bypass -File Configure-HyperVHost.ps1"
   })
 
   protected_settings = jsonencode({
